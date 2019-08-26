@@ -3,11 +3,15 @@ import { View, FlatList, Button, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import DefaultText from "../../components/common/DefaultText";
+import Card from "../../components/common/Card";
 import colors from "../../constants/colors";
 import CartItem from "../../components/shop/CartItem";
 
-const CartScreen = () => {
+import { removeFromCart, addOrder } from "../../store/actions";
+
+const Cart = () => {
   const cart = useSelector(state => state.cart);
+  const dispatch = useDispatch();
 
   let items = [];
   for (let key in cart.items) {
@@ -19,7 +23,7 @@ const CartScreen = () => {
 
   return (
     <View style={s.screen}>
-      <View style={s.summary}>
+      <Card style={s.summary}>
         <DefaultText isBold style={s.summaryText}>
           Total: <DefaultText style={s.amount}>${cart.totalAmount}</DefaultText>
         </DefaultText>
@@ -27,15 +31,27 @@ const CartScreen = () => {
           color={colors.accent}
           title="Order now"
           disabled={!cart.totalAmount}
+          onPress={() => dispatch(addOrder(cart.items, cart.totalAmount))}
         />
-      </View>
+      </Card>
       <FlatList
         data={items}
         keyExtractor={item => item.id}
-        renderItem={data => <CartItem data={data.item} onRemove={() => {}} />}
+        renderItem={data => (
+          <CartItem
+            data={data.item}
+            onRemove={() => dispatch(removeFromCart(data.item))}
+          />
+        )}
       />
     </View>
   );
+};
+
+Cart.navigationOptions = () => {
+  return {
+    headerTitle: "Your Cart"
+  };
 };
 
 const s = StyleSheet.create({
@@ -49,13 +65,6 @@ const s = StyleSheet.create({
     marginBottom: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    shadowColor: "black",
-    shadowOpacity: 0.26,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    elevation: 5,
-    borderRadius: 10,
-    backgroundColor: "white"
   },
   summaryText: {
     fontSize: 18
@@ -64,4 +73,4 @@ const s = StyleSheet.create({
     color: colors.primary
   }
 });
-export default CartScreen;
+export default Cart;

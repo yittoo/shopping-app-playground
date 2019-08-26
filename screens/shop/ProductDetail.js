@@ -8,7 +8,6 @@ import { addToCart } from "../../store/actions";
 
 const ProductDetail = props => {
   const productData = props.navigation.getParam("data");
-  const currentCart = useSelector(state => state.cart.items);
   const dispatch = useDispatch();
 
   return (
@@ -21,7 +20,7 @@ const ProductDetail = props => {
         <Button
           color={colors.primary}
           title="Add to Cart"
-          onPress={() => dispatch(addToCart(productData, currentCart))}
+          onPress={() => dispatch(addToCart(productData))}
         />
       </View>
       <DefaultText style={s.description}>{productData.description}</DefaultText>

@@ -14,7 +14,9 @@ const DefaultText = ({ children, style, isBold }) => (
 );
 
 const s = StyleSheet.create({
-  text: {}
+  text: {
+    color: "#333"
+  }
 });
 
 export default DefaultText;

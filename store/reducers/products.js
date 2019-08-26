@@ -8,6 +8,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.DELETE_PRODUCT:
+      return { ...state, ...action.payload.products };
     default:
       return state;
   }

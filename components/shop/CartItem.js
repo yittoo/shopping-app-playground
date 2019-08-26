@@ -22,7 +22,7 @@ const CartItem = props => {
         <DefaultText isBold style={s.mainText}>
           ${sum}
         </DefaultText>
-        <View style={s.deleteButton}>
+        {onRemove && <View style={s.deleteButton}>
           <Touchable onPress={onRemove}>
             <Ionicons
               name={Platform.OS === "android" ? "md-trash" : "ios-trash"}
@@ -30,7 +30,7 @@ const CartItem = props => {
               color="red"
             />
           </Touchable>
-        </View>
+        </View>}
       </View>
     </View>
   );
